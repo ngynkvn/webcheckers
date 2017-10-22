@@ -20,14 +20,7 @@ app.ws('/sock', (ws, res) => {
         if (args[0] === "OPEN") {
             users.add(ws);
             sockets[args[1]] = ws;
-        } else if (args[0] === "MOVE"){
-            let room = args[1];
-            let from = args[2];
-            let to = args[3];
-            rooms[room].make_move(from,to);
-            updatePlayers(room);
         }
-
     });
 
     ws.on("close", () => {
@@ -43,7 +36,7 @@ app.get('/create_room/:name/:room', (req, res) => {
     console.log(name + " has requested a room: " + room);
     if (rooms[room] == undefined) {
         console.log("Ok! We can make you a room");
-        rooms[room] = new Checkers(name,room);
+        rooms[room] = new Checkers(name, room);
         res.json(rooms[room]);
     } else {
         if (rooms[room].player2 == null) {
@@ -52,6 +45,17 @@ app.get('/create_room/:name/:room', (req, res) => {
             rooms[room].playable = true;
             updatePlayers(rooms[room]);
         }
+    }
+});
+
+app.get('/make_move/:room/:from/:to', (req, res) => {
+    let roomID = req.params.room;
+    let from = req.params.from;
+    let to = req.params.to;
+    if (rooms[roomID].make_move(from, to)) { 
+        console.log("move was successful," + from + " " + to);
+        updatePlayers(rooms[roomID]);
+        res.sendStatus(200);
     }
 });
 
@@ -69,6 +73,10 @@ app.get('/room/:room', (req, res) => {
     let roomName = req.params.room;
     res.send(rooms[roomName]);
 });
+
+app.get('/fetch_rooms', (req, res) => {
+    res.send(rooms);
+})
 
 var i = setInterval(() => {
     for (room in rooms) {

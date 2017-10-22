@@ -2,7 +2,21 @@
   "name": "webcheckers",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": {
+    "/sock":{
+        "target": "ws://localhost:3001/",     
+        "ws": true
+      },
+      "/create_room" : {
+        "target": "http://localhost:3001"      
+      },
+      "/make_move" : {
+        "target": "http://localhost:3001"      
+      },
+      "/fetch_rooms" : {
+        "target": "http://localhost:3001"      
+      }
+  },
   "dependencies": {
     "express": "^4.16.2",
     "express-ws": "^3.0.0",
