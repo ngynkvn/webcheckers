@@ -11,10 +11,8 @@ class Login extends Component {
     handleChange(e) {
         let val = e.target.value;
         this.setState({name: val});
-        // console.log(this.state.name);
     }
     submit() {
-        console.log(this.state.name);
         this
             .props
             .sendData(this.state.name);
