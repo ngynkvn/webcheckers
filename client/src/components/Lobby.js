@@ -12,7 +12,7 @@ export default class Lobby extends Component {
 
     componentDidMount() {
         this.sock = new WebSocket('ws://'+window.location.host+'/sock');
-        console.log(window.location.host);
+        // console.log(window.location.host);
         this.sock.onopen = (e => {
             console.log("sending info");
             this

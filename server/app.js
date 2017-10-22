@@ -40,7 +40,6 @@ app.get('/create_room/:name/:room', (req, res) => {
         console.log("Ok! We can make you a room");
         rooms[room] = new Checkers(name, room);
         res.json(rooms[room]);
-        res.sendStatus(200);
     } else {
         if (rooms[room].player2 == null) {
             console.log("Room already made. joining room");
