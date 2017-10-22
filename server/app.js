@@ -38,12 +38,21 @@ app.get('/create_room/:name/:room', (req, res) => {
         res.json(rooms[room]);
     } else {
         console.log("Possible conflict, check room");
+        if (rooms[room].player2 == null) {
+            console.log("joining room");
+            rooms[room].player2 = name;
+            updatePlayers();
+        }
     }
 });
 
+function updatePlayers( ) { 
+
+}
+
 app.get('/room/:room', (req, res) => { 
     let roomName = req.params.room;
-    res.send(rooms.roomName);
+    res.send(rooms[roomName]);
 });
 
 app.listen(3001);
