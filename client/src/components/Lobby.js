@@ -11,7 +11,7 @@ export default class Lobby extends Component {
     }
 
     componentDidMount() {
-        this.sock = new WebSocket('ws://localhost:3000/sock');
+        this.sock = new WebSocket('ws://'+window.location.host+'/sock');
         console.log(window.location.host);
         this.sock.onopen = (e => {
             console.log("sending info");
@@ -58,8 +58,8 @@ export default class Lobby extends Component {
     };
     lobbyList = (k, v) => {
         if (k.player2 === null) 
-            return <p key={v}>{k.player1} {k.roomID}
-                <button
+            return <p key={v}><b>Player:</b> {k.player1}  <i style={{marginLeft:'5px'}}>Room:</i> {k.roomID}     
+                <button style={{marginLeft:'10px'}}
                     onClick={(e) => {
                     this.makeRoom(k.roomID);
                     e.preventDefault();
@@ -77,14 +77,14 @@ export default class Lobby extends Component {
                         this.makeRoom(this.state.roomName);
                         e.preventDefault();
                     }}>
-                        <label htmlFor="roomName">Room Name:
+                        <label htmlFor="roomName"><b>Room Name:</b>
                         </label>
-                        <input
+                        <input style={{ margin: '5px' }}
                             type="text"
                             name="n"
                             autoFocus={true}
                             onChange={(e) => this.handleChange(e.target.value)}/>
-                        <input type="submit" value="Submit"/>
+                        <input type="submit" value="Submit" style={{margin:'5px'}}/>
                     </form>
                     <p>Or, join an existing one:</p>
                     {this.state.lobbies !== undefined

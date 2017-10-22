@@ -5,6 +5,8 @@ var Checkers = require('./game/checkers.js');
 const app = express();
 const expressWs = require('express-ws')(app);
 
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 app.get('/', (req, res) => {
     res.send("OK");
 });
@@ -38,6 +40,7 @@ app.get('/create_room/:name/:room', (req, res) => {
         console.log("Ok! We can make you a room");
         rooms[room] = new Checkers(name, room);
         res.json(rooms[room]);
+        res.sendStatus(200);
     } else {
         if (rooms[room].player2 == null) {
             console.log("Room already made. joining room");
@@ -45,6 +48,15 @@ app.get('/create_room/:name/:room', (req, res) => {
             rooms[room].playable = true;
             updatePlayers(rooms[room]);
         }
+    }
+});
+
+app.get('/userok/:username', (req, res) => { 
+    console.log(req.params.username);
+    if (sockets.hasOwnProperty(req.params.username)) {
+        res.sendStatus(403);
+    } else {
+        res.sendStatus(200);
     }
 });
 

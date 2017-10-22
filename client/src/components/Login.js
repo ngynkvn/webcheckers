@@ -6,7 +6,6 @@ class Login extends Component {
         this.state = {
             name: ""
         };
-
     }
     handleChange(e) {
         let val = e.target.value;
@@ -24,14 +23,15 @@ class Login extends Component {
                 this.submit();
                 e.preventDefault()
             }}>
-                <label htmlFor="username">name :
+                <label htmlFor="username">Name :
                 </label>
-                <input
+                <input style={{ margin: '5px' }}
                     type="text"
                     autoFocus={true}
                     name="username"
                     onChange={(e) => this.handleChange(e)}/>
-                <input type="submit" value="Submit"/>
+                <input type="submit" value="Submit" style={{ margin: '5px' }} />
+                {this.props.problem?<p><i>There was a problem with your request. Please select a different username.</i></p>:null}
             </form>
         );
     }

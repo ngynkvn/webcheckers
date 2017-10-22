@@ -15,6 +15,9 @@
       },
       "/fetch_rooms" : {
         "target": "http://localhost:3001"      
+      },
+      "/userok" : {
+        "target": "http://localhost:3001"      
       }
   },
   "dependencies": {
