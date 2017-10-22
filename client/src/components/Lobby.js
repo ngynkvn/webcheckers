@@ -13,7 +13,11 @@ export default class Lobby extends Component {
         this.sock = new WebSocket('ws://localhost:3001/sock');
         this.sock.onopen = (e => {
             console.log("sending info");
-            this.sock.send("OPEN");
+            this.sock.send("OPEN "+this.props.user);
+        });
+        this.sock.onmessage = (msg => {
+            let gameState = JSON.parse(msg.data);
+            this.setState({game:gameState});
         });
         
     };

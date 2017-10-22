@@ -1,8 +1,11 @@
 class Checkers {
-    constructor(player) {
+    constructor(player,roomID) {
         this.player1 = player;
         this.player2 = null;
         this.playable = false;
+        this.roomID = roomID;
+        this.whites = 12;
+        this.reds = 12;
         this.board = new Array(64);
         for (var i = 0; i < 8; i++){
             var offset = i % 2;
@@ -14,7 +17,7 @@ class Checkers {
                 } else if (i >= 5 && index % 2 == 1) {
                     this.board[index+offset] = 2; //blacks
                 } else if (index % 2 == 1) {
-                    this.board[index] = 0; //no tile
+                    this.board[index] = null; //no tile
                 } 
             }
         }
@@ -23,8 +26,17 @@ class Checkers {
         this.board[40] = 2;
         this.board[48] = null;
         this.board[56] = 2;
-        
     }
+    validMove(from, to) {
+        return true;
+    };
+    make_move(from,to){
+        if(validMove(from,to)){
+            return true;
+        } else {
+            return false;
+        }
+    };
 
 }
 

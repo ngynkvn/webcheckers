@@ -1,41 +1,58 @@
 import React, {Component} from 'react';
 
 export default class Game extends Component {
+
+    constructor(props)
+    {
+        super(props);
+        this.state = {
+            selected: null
+        };
+    }
+
     render() {
         return <div>
             {this.draw(this.props.board)}
+            {this.playerStatus()}
         </div>
     };
-
     handleClick(id)
     {
-        console.log(id);
+        let selected = this.state.selected;
+        if (selected === null) {
+            this.setState({selected:id});
+        }
+        else if (selected) {
+            if (selected === id) {
+                this.setState({selected:null});
+            } else {
+                console.log("move made!");
+            }
+        }
     };
+    playerStatus = () => <div>
+                            <p>Player 1 is {this.props.board.player1}</p>
+                            <p>{this.props.board.player2 == null ? "Waiting for player 2" : "Player 2 is "+this.props.board.player2}</p>
+                           </div>
     displayBoard = (e, i) => {
         var isWhite = (Math.floor((i / 8) % 2) + (i % 2)) % 2;
+        var style = tile[isWhite];
+        var selectIndicator = this.state.selected === i ? "highlight" : "";
         if (e === null) {
-            return <div style={tile[isWhite]} key={i}></div>
+            return <div style={style} key={i}></div>
         } else {
-            return <div
-                onClick={(e) => this.handleClick(i)}
-                style={tile[isWhite]}
-                key={i}>
-                <div className={pieceMap[e]}></div>
+            return <div onClick={() => {this.handleClick(i)}} style={style} key={i}>
+                <div className={pieceMap[e] + " piece " + selectIndicator}></div>
             </div>
         }
     };
     draw(game) {
-        return (
-            <div>
-            <div style={boardStyle}>
-                {game
-                    .board
-                    .map(this.displayBoard)}
-            </div>
-            <div>
-                <p>{game.player1} is White</p>
-                <p>{game.player2 == null ? "Waiting for player 2" : game.player2 + " is Red"} </p>
-            </div>
+        return ( <div>
+                <div style={boardStyle}>
+                    {game
+                        .board
+                        .map(this.displayBoard)}
+                </div>
             </div>
         );
     }
@@ -44,8 +61,8 @@ export default class Game extends Component {
 const boardStyle = {
     maxWidth: '640px',
     maxHeight: '640px',
-    width:'100%',
-    height:'100%',
+    width: '100%',
+    height: '100%',
     backgroundColor: '#333',
     display: 'flex',
     flexFlow: "row wrap"
@@ -58,13 +75,13 @@ const pieceMap = {
 
 const tile = {
     0: { //white
-        width: '80px',
         height: '80px',
-        backgroundColor: '#fff'
+        width: '80px',
+        backgroundColor: '#ddd'
     },
     1: { //black
-        width: '80px',
         height: '80px',
+        width: '80px',
         backgroundColor: '#777'
     }
 }
