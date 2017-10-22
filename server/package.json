@@ -1,9 +1,9 @@
 {
   "name": "server",
   "version": "0.0.0",
-  "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./app.js",
+    "heroku-postbuild": "cd ../client && yarn --production=false && yarn run build"
   },
   "dependencies": {
     "express": "~4.15.5",
